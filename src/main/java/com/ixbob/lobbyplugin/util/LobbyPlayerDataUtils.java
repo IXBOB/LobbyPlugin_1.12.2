@@ -5,12 +5,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.bukkit.Bukkit;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Utils {
+public class LobbyPlayerDataUtils {
     private static final MongoDB dbPlayerData = new MongoDB("lobbyPlayerData");
     public static final SimpleDateFormat simpleDateFormatAll = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final  SimpleDateFormat simpleDateFormatDayOnly = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -47,6 +46,7 @@ public class Utils {
         int today = currentDate.getDayOfMonth();
 
         DBObject playerData = dbPlayerData.findByUUID(uuid);
+        System.out.println(dbPlayerData.getCollectionName() + " 123456");
         int lastSignedYear = (int) playerData.get("LastSignedYear");
         int lastSignedMonth = (int) playerData.get("LastSignedMonth");
         int lastSignedDay = (int) playerData.get("LastSignedDay");

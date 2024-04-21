@@ -1,13 +1,16 @@
 package com.ixbob.lobbyplugin.event;
 
 import com.ixbob.lobbyplugin.handler.config.LangLoader;
-import com.ixbob.lobbyplugin.util.Utils;
+import com.ixbob.lobbyplugin.util.LobbyPlayerDataUtils;
+import com.ixbob.lobbyplugin.util.ServerCoinDataUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -25,12 +28,19 @@ public class OnPlayerJoinListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            if (!Utils.isPlayerDataExist(uuid)) {
-                Utils.createPlayerData(uuid);
+            if (!LobbyPlayerDataUtils.isPlayerDataExist(uuid)) {
+                LobbyPlayerDataUtils.createPlayerData(uuid);
             }
-            Utils.initPlayerData(uuid);
+            LobbyPlayerDataUtils.initPlayerData(uuid);
+            if(!ServerCoinDataUtils.isPlayerDataExist(uuid)) {
+                ServerCoinDataUtils.createPlayerCoinData(uuid);
+            }
+            Bukkit.getServer().getScheduler().runTask(plugin, () -> {
+                player.setMetadata("LobbyCoinAmount",   //get data from database
+                        new FixedMetadataValue(plugin, ServerCoinDataUtils.getLobbyCoinAmount(uuid)));
+                initScBoard();
+            });
         });
-        initScBoard();
     }
 
     public void initScBoard() {
@@ -41,7 +51,7 @@ public class OnPlayerJoinListener implements Listener {
             scoreboardObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
             scoreboardObj.getScore(LangLoader.get("lobby_sc_line1")).setScore(0);
-            scoreboardObj.getScore(LangLoader.get("lobby_sc_line2")).setScore(-1);
+            scoreboardObj.getScore(String.format(LangLoader.get("lobby_sc_line2"), player.getMetadata("LobbyCoinAmount").get(0).asInt())).setScore(-1);
             scoreboardObj.getScore(LangLoader.get("lobby_sc_line3")).setScore(-2);
             scoreboardObj.getScore(LangLoader.get("lobby_sc_line4")).setScore(-3);
 

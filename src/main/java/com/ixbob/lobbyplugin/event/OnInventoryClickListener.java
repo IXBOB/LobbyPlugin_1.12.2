@@ -2,7 +2,7 @@ package com.ixbob.lobbyplugin.event;
 
 import com.ixbob.lobbyplugin.handler.config.LangLoader;
 import com.ixbob.lobbyplugin.MenuItems;
-import com.ixbob.lobbyplugin.util.Utils;
+import com.ixbob.lobbyplugin.util.LobbyPlayerDataUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +24,7 @@ public class OnInventoryClickListener implements Listener {
             Inventory inventory = event.getInventory();
             if (slot + 1 == today) {
                 inventory.setItem(slot, MenuItems.ITEM_SIGNED.getItemStack());
-                Utils.playerSignUpdate(player.getUniqueId());
+                LobbyPlayerDataUtils.playerSignUpdate(player.getUniqueId());
             }
         }
     }

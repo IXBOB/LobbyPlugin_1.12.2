@@ -9,10 +9,11 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class MongoDB {
-    private static DBCollection collection;
+    private DBCollection collection;
     private static DB mcserverdb;
     private static MongoClient client;
     public MongoDB(String collectionName) {
+        System.out.println("init");
         collection = mcserverdb.getCollection(collectionName);
     }
     public MongoDB() {}
@@ -54,7 +55,7 @@ public class MongoDB {
         DBObject found = collection.findOne(r);
         if (found == null) {
             Bukkit.getLogger().log(Level.SEVERE, "found nothing. Error uuid parameter.");
-            throw new NullPointerException();
+            new NullPointerException().printStackTrace();
         }
         return found;
     }
