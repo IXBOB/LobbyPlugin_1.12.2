@@ -1,0 +1,41 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id 'java'
+}
+
+group = 'com.ixbob.lobbyplugin'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url "https://repo.codemc.org/repository/maven-public/" }
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    implementation 'org.mongodb:mongo-java-driver:2.13.1'
+    implementation 'org.mongodb:mongodb-driver-sync:4.0.1'
+}
+
+shadowJar {
+    project.configurations.implementation.canBeResolved = true
+    configurations = [project.configurations.implementation]
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+task moveOutput(type: Exec) {
+    workingDir = file('C:\\Users\\IXBOB\\Desktop\\LobbyPlugin\\LobbyPlugin')
+    commandLine 'cmd', '/c', 'move_output.bat'
+}

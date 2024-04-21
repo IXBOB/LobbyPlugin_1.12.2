@@ -1,0 +1,12 @@
+name: LobbyPlugin
+version: 1.0.0
+api-version: 1.12
+author: IXBOB
+description: Lobby plugin by IXBOB.
+website: www.github.com/IXBOB
+prefix: LobbyPlugin #控制台日志所使用的名称
+main: com.ixbob.lobbyplugin.Main
+commands:
+  qiandao:
+    description: open the menu of qiandao.
+    usage: /<command>
