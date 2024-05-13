@@ -34,7 +34,9 @@ public class OnInventoryClickListener implements Listener {
                 ServerCoinDataUtils.updateLobbyCoinScoreboard(uuid, addCoin);
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
                 player.sendMessage(String.format(LangLoader.get("sign_success_message"), addCoin));
+                return;
             }
         }
+        event.setCancelled(true);
     }
 }
