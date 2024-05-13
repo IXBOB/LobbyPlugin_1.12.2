@@ -5,7 +5,7 @@ import com.ixbob.lobbyplugin.util.LobbyPlayerDataUtils;
 import com.ixbob.lobbyplugin.util.ServerCoinDataUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +27,10 @@ public class OnPlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
+
+        player.teleport(new Location(Bukkit.getWorlds().get(0), 56, 33, 59));
+        player.sendTitle(LangLoader.get("join_welcome_title"), LangLoader.get("join_welcome_subtitle"), 10, 120, 10);
+
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             if (!LobbyPlayerDataUtils.isPlayerDataExist(uuid)) {
                 LobbyPlayerDataUtils.createPlayerData(uuid);
