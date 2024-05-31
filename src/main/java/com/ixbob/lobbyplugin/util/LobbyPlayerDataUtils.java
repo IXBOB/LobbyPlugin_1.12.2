@@ -51,7 +51,7 @@ public class LobbyPlayerDataUtils {
         int lastSignedMonth = (int) playerData.get("LastSignedMonth");
         int lastSignedDay = (int) playerData.get("LastSignedDay");
         if (year != lastSignedYear || month != lastSignedMonth) {
-            playerData.put("CurrentMonthSignedDays", new ArrayList<Boolean>(Collections.nCopies(30 ,false)));
+            playerData.put("CurrentMonthSignedDays", new ArrayList<Boolean>(Collections.nCopies(monthLen ,false)));
         }
         if (today != lastSignedDay) {
             playerData.put("TodaySigned", false);
