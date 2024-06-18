@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 
 public enum MenuItems {
     ITEM_OUTDATED(Material.GLASS_BOTTLE, 1, LangLoader.get("item_outdated")),
-    ITEM_SIGNED(Material.EXP_BOTTLE, 1, LangLoader.get("item_signed")),
+    ITEM_SIGNED(Material.EXPERIENCE_BOTTLE, 1, LangLoader.get("item_signed")),
     ITEM_UNSIGNED(Material.POTION, 1, LangLoader.get("item_unsigned")),
     ITEM_TODAY_UNSIGNED(Material.POTION, 1, LangLoader.get("item_today_unsigned"));
 

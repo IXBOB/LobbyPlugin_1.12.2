@@ -18,7 +18,7 @@ import java.util.UUID;
 public class OnInventoryClickListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (Objects.equals(event.getInventory().getName(), LangLoader.get("qiandao_gui_title"))) {
+        if (Objects.equals(event.getView().getTitle(), LangLoader.get("qiandao_gui_title"))) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             int slot = event.getSlot();
@@ -32,11 +32,13 @@ public class OnInventoryClickListener implements Listener {
                 final int addCoin = 200;
                 ServerCoinDataUtils.addLobbyCoin(uuid, addCoin);
                 ServerCoinDataUtils.updateLobbyCoinScoreboard(uuid, addCoin);
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
                 player.sendMessage(String.format(LangLoader.get("sign_success_message"), addCoin));
                 return;
             }
         }
-        event.setCancelled(true);
+        if (!event.getWhoClicked().isOp()) {
+            event.setCancelled(true);
+        }
     }
 }
