@@ -4,7 +4,6 @@ import com.mongodb.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import java.net.UnknownHostException;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -12,29 +11,33 @@ public class MongoDB {
     private DBCollection collection;
     private static DB mcserverdb;
     private static MongoClient client;
+
     public MongoDB(String collectionName) {
         System.out.println("init");
         collection = mcserverdb.getCollection(collectionName);
     }
-    public MongoDB() {}
+
+    public MongoDB() {
+    }
+
     public void setCollection(String collectionName) {
         collection = mcserverdb.getCollection(collectionName);
     }
+
     public void connect(String ip, int port, Plugin plugin) {
-        try {
-            client = new MongoClient(ip, port);
-            plugin.getLogger().log(Level.INFO, "database connected!");
-            mcserverdb = client.getDB("mcserver");
-        } catch (UnknownHostException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not connect to database!", e);
-        }
+        client = new MongoClient(ip, port);
+        plugin.getLogger().log(Level.INFO, "database connected!");
+        mcserverdb = client.getDB("mcserver");
     }
+
     public long getCollectionSize() {
         return collection.getCount();
     }
+
     public String getCollectionName() {
         return collection.getName();
     }
+
     public void insert(DBObject object) {
         collection.insert(object);
     }
@@ -50,7 +53,7 @@ public class MongoDB {
 //        collection.insert(obj);
 //    }
 
-    public DBObject findByUUID (UUID uuid) {
+    public DBObject findByUUID(UUID uuid) {
         DBObject r = new BasicDBObject("uuid", uuid.toString());
         DBObject found = collection.findOne(r);
         if (found == null) {
@@ -60,7 +63,7 @@ public class MongoDB {
         return found;
     }
 
-    public boolean isFindByUUIDExist (UUID uuid) {
+    public boolean isFindByUUIDExist(UUID uuid) {
         DBObject r = new BasicDBObject("uuid", uuid.toString());
         DBObject found = collection.findOne(r);
         return found != null;
